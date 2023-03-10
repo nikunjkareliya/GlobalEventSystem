@@ -11,18 +11,33 @@ public enum GameState
 }
 
 public class GameManager : MonoBehaviour
-{    
-    void Awake() => GameInit();    
+{
+    [SerializeField] int _totalScore;
+    public int TotalScore { get => _totalScore;
+        set {
+            _totalScore = value;
+            Events.OnScoreUpdated.Execute(_totalScore);
+        } 
+    }
 
-    private void OnEnable() => Events.OnGameStateChanged.Register(OnGameStateChanged);
+    void Awake() => GameInit();
 
-    private void OnDisable() => Events.OnGameStateChanged.Unregister(OnGameStateChanged);
+    private void OnEnable() { 
+        Events.OnGameStateChanged.Register(OnGameStateChanged);
+        Events.OnScoreAdded.Register(OnScoreAdded);
+    }
+
+    private void OnDisable() {
+        Events.OnGameStateChanged.Unregister(OnGameStateChanged);
+        Events.OnScoreAdded.Unregister(OnScoreAdded);
+    } 
 
     [SerializeField] GameState _currentGameState;
     public GameState CurrentGameState { get => _currentGameState; set => _currentGameState = value; }
 
     void GameInit()
     {
+        _totalScore = 0;
         Events.OnGameStateChanged.Execute(GameState.Gameplay);
     }
 
@@ -39,5 +54,10 @@ public class GameManager : MonoBehaviour
             case GameState.LevelWon:
                 break;
         }
+    }
+
+    void OnScoreAdded(int score)
+    {
+        TotalScore += score;
     }
 }

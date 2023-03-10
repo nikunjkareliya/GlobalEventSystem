@@ -14,5 +14,6 @@ public static class Events
     public static readonly GameEvent<float> OnVerticalAxis = new GameEvent<float>();
 
     public static readonly GameEvent OnGameOver = new GameEvent();
-    public static readonly GameEvent<int> OnScoreChanged = new GameEvent<int>();
+    public static readonly GameEvent<int> OnScoreAdded = new GameEvent<int>();
+    public static readonly GameEvent<int> OnScoreUpdated = new GameEvent<int>();
 }

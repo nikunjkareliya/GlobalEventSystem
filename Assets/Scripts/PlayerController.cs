@@ -41,4 +41,14 @@ public class PlayerController : MonoBehaviour
             _rigidBody.AddForce(_movementVector * 10);            
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var collectible = other.GetComponent<Collectible>();
+        if (collectible != null)
+        {
+            Events.OnScoreAdded.Execute(10);
+            Destroy(other.gameObject);
+        }
+    }
 }
