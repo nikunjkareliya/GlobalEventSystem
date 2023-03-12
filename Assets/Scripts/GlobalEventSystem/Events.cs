@@ -7,6 +7,9 @@ public static class Events
     // Game
     public static readonly GameEvent<GameState> OnGameStateChanged = new GameEvent<GameState>();
 
+    // Level
+    public static readonly GameEvent<LevelData> OnLevelInitialized = new GameEvent<LevelData>();
+
     // Input
     public static readonly GameEvent<Vector3> OnMouseButtonClicked = new GameEvent<Vector3>();
     public static readonly GameEvent<Vector3> OnAxisValuesChanged = new GameEvent<Vector3>();

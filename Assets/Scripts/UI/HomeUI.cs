@@ -6,24 +6,24 @@ using System;
 using DG.Tweening;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class GameplayUI : MonoBehaviour
+public class HomeUI : MonoBehaviour
 {
     [SerializeField] CanvasGroup _canvasGroup;
-    [SerializeField] TextMeshProUGUI _textScore;
-
+    
     private void Awake()
     {
-        Events.OnScoreUpdated.Register(OnScoreUpdated);
+        
     }
     
     private void OnDestroy()
     {
-        Events.OnScoreUpdated.Unregister(OnScoreUpdated);        
+        
     }
 
-    private void OnScoreUpdated(int totalScore)
+    public void ButtonPlay(LevelData levelData)
     {
-        _textScore.text = totalScore.ToString();
+        Events.OnGameStateChanged.Execute(GameState.Gameplay);
+        Events.OnLevelInitialized.Execute(levelData);
     }
 
     public void Show()
@@ -41,5 +41,4 @@ public class GameplayUI : MonoBehaviour
             _canvasGroup.blocksRaycasts = false;
         });
     }
-
 }

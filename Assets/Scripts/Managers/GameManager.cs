@@ -20,6 +20,11 @@ public class GameManager : MonoBehaviour
         } 
     }
 
+    [SerializeField] HomeUI _homeUI;
+    [SerializeField] GameplayUI _gameplayUI;
+    [SerializeField] LevelCompletedUI _levelCompletedUI;
+    [SerializeField] GameState _currentGameState;
+
     void Awake() => GameInit();
 
     private void OnEnable() { 
@@ -32,7 +37,6 @@ public class GameManager : MonoBehaviour
         Events.OnScoreAdded.Unregister(OnScoreAdded);
     } 
 
-    [SerializeField] GameState _currentGameState;
     public GameState CurrentGameState { get => _currentGameState; set => _currentGameState = value; }
 
     void GameInit()
@@ -43,15 +47,26 @@ public class GameManager : MonoBehaviour
 
     void OnGameStateChanged(GameState gameState)
     {
+        _currentGameState = gameState;
+
         switch (gameState)
         {
             case GameState.Home:
+                _homeUI.Show();
+                _gameplayUI.Hide();
+                _levelCompletedUI.Hide();
                 break;
             case GameState.Gameplay:
+                _homeUI.Hide();
+                _gameplayUI.Show();
+                _levelCompletedUI.Hide();
                 break;
             case GameState.LevelFailed:
                 break;
             case GameState.LevelWon:
+                _homeUI.Hide();
+                _gameplayUI.Hide();
+                _levelCompletedUI.Show();
                 break;
         }
     }
