@@ -9,12 +9,12 @@ namespace EventManagerDemo
     {
         private void Start()
         {
-            EventManager<float>.Register(EventKeys.SCORE_UPDATED, HandleScoreUpdated);
+            EventManager.Register<float>(EventKeys.SCORE_UPDATED, HandleScoreUpdated);            
         }
 
         private void OnDestroy()
         {
-            EventManager<float>.Unregister(EventKeys.SCORE_UPDATED, HandleScoreUpdated);            
+            EventManager.Unregister<float>(EventKeys.SCORE_UPDATED, HandleScoreUpdated);            
         }
 
         private void HandleScoreUpdated(float score)

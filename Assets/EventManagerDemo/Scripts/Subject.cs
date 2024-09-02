@@ -16,7 +16,7 @@ namespace EventManagerDemo
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _score += 10;
-                EventManager<float>.Execute(EventKeys.SCORE_UPDATED, _score);                
+                EventManager.Execute<float>(EventKeys.SCORE_UPDATED, _score);                
             }
         }
     }
