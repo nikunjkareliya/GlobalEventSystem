@@ -38,68 +38,35 @@ namespace EventManagerDemo
         }
     }
 
-    public static class EventManager<TEventArgs>
+    public static class EventManager<T>
     {
-        private static Dictionary<string, Action<TEventArgs>> _eventDictionary = new Dictionary<string, Action<TEventArgs>>();
+        private static readonly Dictionary<string, Action<T>> _eventDictionary = new Dictionary<string, Action<T>>();
 
-        public static void Register(string eventType, Action<TEventArgs> eventHandler)
+        public static void Register(string incidentId, Action<T> action)
         {
-            if (!_eventDictionary.ContainsKey(eventType))
+            if (_eventDictionary.ContainsKey(incidentId))
             {
-                _eventDictionary[eventType] = eventHandler;
-            }
-            else
-            { 
-                _eventDictionary[eventType] += eventHandler;
-            }
-        }
-
-        public static void Unregister(string eventType, Action<TEventArgs> eventHandler)
-        {
-            if (_eventDictionary.ContainsKey(eventType))
-            {
-                _eventDictionary[eventType] -= eventHandler;
-            }
-        }
-
-        public static void Execute(string eventType, TEventArgs eventArgs)
-        {
-            if (_eventDictionary.ContainsKey(eventType))
-            { 
-                _eventDictionary[eventType]?.Invoke(eventArgs);
-            }
-        }
-    }
-
-    public static class EventManager<TEventArgs1, TEventArgs2>
-    {
-        private static Dictionary<string, Action<TEventArgs1, TEventArgs2>> _eventDictionary = new Dictionary<string, Action<TEventArgs1, TEventArgs2>>();
-
-        public static void Register(string eventType, Action<TEventArgs1, TEventArgs2> eventHandler)
-        {
-            if (!_eventDictionary.ContainsKey(eventType))
-            {
-                _eventDictionary[eventType] = eventHandler;
+                _eventDictionary[incidentId] = action;
             }
             else
             {
-                _eventDictionary[eventType] += eventHandler;
+                _eventDictionary.Add(incidentId, action);
             }
         }
 
-        public static void Unregister(string eventType, Action<TEventArgs1, TEventArgs2> eventHandler)
+        public static void Unregister(string incidentId, Action<T> action)
         {
-            if (_eventDictionary.ContainsKey(eventType))
+            if (_eventDictionary.ContainsKey(incidentId))
             {
-                _eventDictionary[eventType] -= eventHandler;
+                _eventDictionary[incidentId] -= action;
             }
         }
 
-        public static void Execute(string eventType, TEventArgs1 eventArgs1, TEventArgs2 eventArgs2)
+        public static void Execute(string incidentId, T args)
         {
-            if (_eventDictionary.ContainsKey(eventType))
+            if (_eventDictionary.ContainsKey(incidentId))
             {
-                _eventDictionary[eventType]?.Invoke(eventArgs1, eventArgs2);
+                _eventDictionary[incidentId]?.Invoke(args);
             }
         }
     }
